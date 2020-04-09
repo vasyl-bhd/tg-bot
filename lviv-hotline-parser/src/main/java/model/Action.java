@@ -7,6 +7,7 @@ import java.util.List;
 
 @Value
 public class Action {
+    String id;
     LocalDateTime startDate;
     LocalDateTime estimatedEndDate;
     LocalDateTime endDate;

@@ -10,6 +10,7 @@ public final class Constants {
     public static final String BR = "<br>";
     public static final String DIV_PREFIX = "<div";
 
+    public static final String ID_ATTRIBUTE = "id";
     public static final String ROW_CLASS = "div[class=row animcolor]";
     public static final String SIDEBAR_CLASS = "div[class=col-xs-1]";
     public static final String BODY_CLASS = "div[class=col-xs-11]";

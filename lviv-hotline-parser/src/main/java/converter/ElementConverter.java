@@ -24,6 +24,7 @@ public final class ElementConverter {
 
     public static Action toAction(Element element) {
         return new Action(
+                element.attr(ID_ATTRIBUTE),
                 toLocalDateTime(element.select(START_DATE_CLASS).text()),
                 toLocalDateTime(element.select(ESTIMATED_END_DATE_CLASS).text()),
                 toLocalDateTime(element.select(END_DATE_CLASS).text()),
