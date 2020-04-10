@@ -3,18 +3,14 @@ package parser;
 import converter.ElementConverter;
 import lombok.SneakyThrows;
 import model.Action;
-import model.Street;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.function.Predicate.not;
 import static model.Constants.*;
 
 public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
