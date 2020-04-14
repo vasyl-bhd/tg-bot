@@ -1,4 +1,4 @@
-package com.vasylbhd.model;
+package com.vasylbhd.lvivhotlinebot.model;
 
 import lombok.Value;
 import model.Action;

@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>lviv-hotline-bot</module>
+        <module>lvivhotlinebot</module>
         <module>lviv-hotline-parser</module>
     </modules>
 

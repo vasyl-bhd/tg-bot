@@ -1,0 +1,26 @@
+package com.vasylbhd.lvivhotlinebot.command;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.telegram.telegrambots.meta.api.objects.Message;
+
+import java.util.function.Consumer;
+
+public abstract class CommandProcessor implements Processor {
+    @Value("${telegram.bot.chatid}")
+    protected Long chatId;
+
+    public abstract Command getCommand();
+
+    @Override
+    public void process(Message text, Consumer<String> execute) {
+        if (chatId.equals(text.getChatId()) && text.isCommand()) {
+            Command executedCommand = Command.fromString(text.getText())
+                    .orElse(Command.DEFAULT_COMMAND);
+            if (executedCommand == getCommand()) {
+                process(execute);
+            }
+        }
+    }
+
+    protected abstract void process(Consumer<String> execute);
+}
