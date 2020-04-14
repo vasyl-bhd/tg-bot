@@ -1,4 +1,4 @@
-package com.vasylbhd.lvivhotlinebot.command;
+package com.vasylbhd.lvivhotlinebot.processor.command;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
-package com.vasylbhd.lvivhotlinebot.command.impl;
+package com.vasylbhd.lvivhotlinebot.processor;
 
-import com.vasylbhd.lvivhotlinebot.command.Processor;
+import com.vasylbhd.lvivhotlinebot.processor.Processor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;

@@ -1,4 +1,4 @@
-package com.vasylbhd.lvivhotlinebot.command;
+package com.vasylbhd.lvivhotlinebot.processor;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 

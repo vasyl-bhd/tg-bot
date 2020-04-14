@@ -1,7 +1,7 @@
-package com.vasylbhd.lvivhotlinebot.command.impl;
+package com.vasylbhd.lvivhotlinebot.processor.command.impl;
 
-import com.vasylbhd.lvivhotlinebot.command.Command;
-import com.vasylbhd.lvivhotlinebot.command.CommandProcessor;
+import com.vasylbhd.lvivhotlinebot.processor.command.Command;
+import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
 import com.vasylbhd.lvivhotlinebot.model.ResponseMessage;
 import model.Action;
 import org.springframework.beans.factory.annotation.Value;
