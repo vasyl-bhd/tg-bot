@@ -14,13 +14,17 @@ public abstract class CommandProcessor implements Processor {
 
     @Override
     public void process(Message text, Consumer<String> execute) {
-        if (chatId.equals(text.getChatId()) && text.isCommand()) {
+        if (isChatIdAcceptable(text.getChatId()) && text.isCommand()) {
             Command executedCommand = Command.fromString(text.getText())
                     .orElse(Command.DEFAULT_COMMAND);
             if (executedCommand == getCommand()) {
                 process(execute);
             }
         }
+    }
+
+    protected boolean isChatIdAcceptable(Long chatId) {
+        return this.chatId.equals(chatId);
     }
 
     protected abstract void process(Consumer<String> execute);

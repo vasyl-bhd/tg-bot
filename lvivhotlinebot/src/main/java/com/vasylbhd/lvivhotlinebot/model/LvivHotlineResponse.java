@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Value
-public class ResponseMessage {
+public class LvivHotlineResponse {
     String id;
     LocalDateTime startDate;
     LocalDateTime estimatedEndDate;
@@ -30,8 +30,8 @@ public class ResponseMessage {
                 .collect(Collectors.joining(";\n"));
     }
 
-    public static ResponseMessage fromAction(Action action) {
-        return new ResponseMessage(action.getId(),
+    public static LvivHotlineResponse fromAction(Action action) {
+        return new LvivHotlineResponse(action.getId(),
                 action.getStartDate(),
                 action.getEstimatedEndDate(),
                 action.getEndDate(),

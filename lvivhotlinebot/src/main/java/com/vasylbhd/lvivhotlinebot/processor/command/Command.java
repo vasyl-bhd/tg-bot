@@ -11,6 +11,7 @@ import static java.util.stream.Collectors.toMap;
 public enum Command {
     GET_INFO("getinfo"),
     START("start"),
+    RANDOM_MEME("gimme"),
     DEFAULT_COMMAND("");
 
     Command(String value) {

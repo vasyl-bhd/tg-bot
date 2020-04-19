@@ -1,10 +1,9 @@
 package com.vasylbhd.lvivhotlinebot.processor.command.impl;
 
+import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
 import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
-import com.vasylbhd.lvivhotlinebot.model.ResponseMessage;
 import model.Action;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import parser.LvivHotlineIssuesParserImpl;
 
@@ -18,9 +17,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @Service
 public class GetInfoCommandProcessor extends CommandProcessor {
 
-    @Value("${telegram.bot.chatid}")
-    String chatId;
-
     @Override
     public Command getCommand() {
         return Command.GET_INFO;
@@ -28,11 +24,11 @@ public class GetInfoCommandProcessor extends CommandProcessor {
 
     @Override
     public void process(Consumer<String> execute) {
-        List<Action> parse = new LvivHotlineIssuesParserImpl()
-                .parse(LocalDate.now(), LocalDate.now().plus(1, DAYS));
-        List<String> messages = parse.stream()
-                .map(ResponseMessage::fromAction)
-                .map(ResponseMessage::toTelegramResponse)
+        List<String> messages = new LvivHotlineIssuesParserImpl()
+                .parse(LocalDate.now(), LocalDate.now().plus(1, DAYS))
+                .stream()
+                .map(LvivHotlineResponse::fromAction)
+                .map(LvivHotlineResponse::toTelegramResponse)
                 .collect(Collectors.toList());
 
         if (messages.isEmpty()) {

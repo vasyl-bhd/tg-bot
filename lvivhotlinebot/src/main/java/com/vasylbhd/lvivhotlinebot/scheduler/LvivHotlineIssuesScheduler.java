@@ -2,7 +2,7 @@ package com.vasylbhd.lvivhotlinebot.scheduler;
 
 import com.vasylbhd.lvivhotlinebot.bot.LvivHotlineBot;
 import com.vasylbhd.lvivhotlinebot.dao.InMemoryDao;
-import com.vasylbhd.lvivhotlinebot.model.ResponseMessage;
+import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
 import model.Action;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -35,8 +35,8 @@ public class LvivHotlineIssuesScheduler {
         parse
                 .stream()
                 .filter(i -> !inMemoryDao.contains(i.getId()))
-                .map(ResponseMessage::fromAction)
-                .map(ResponseMessage::toTelegramResponse)
+                .map(LvivHotlineResponse::fromAction)
+                .map(LvivHotlineResponse::toTelegramResponse)
                 .forEach(lvivHotlineBot::sendMessage);
     }
 

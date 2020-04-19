@@ -6,7 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.ActionType;
+import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +19,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class LvivHotlineBot extends TelegramLongPollingBot {
-
     @Value("${telegram.bot.token}")
     protected String token;
     @Value("${telegram.bot.chatid}")
@@ -30,31 +32,6 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
         this.processors = processors;
     }
 
-    @PostConstruct
-    void onBeanCreate() {
-        sendMessage(String.format("Started on: %s", LocalDateTime.now()));
-    }
-
-    @Override
-    public void onUpdateReceived(Update update) {
-        log.debug("{}", update);
-        if (update.hasMessage()) {
-            processors.forEach(processor ->
-                    processor.process(update.getMessage(),
-                    message -> doExecute(update.getMessage().getChatId(), message)));
-        }
-    }
-
-    @SneakyThrows
-    private void doExecute(Long chatId, String message) {
-        super.execute(new SendMessage(chatId, message));
-    }
-
-    @SneakyThrows
-    public void sendMessage(String message) {
-        execute(new SendMessage(chatId, message));
-    }
-
     @Override
     public String getBotUsername() {
         return username;
@@ -63,5 +40,40 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         return token;
+    }
+
+    @Override
+    public void onUpdateReceived(Update update) {
+        log.debug("{}", update);
+
+        if (update.hasMessage()) {
+            setTyping(update.getMessage().getChatId());
+            processors.forEach(processor -> process(processor, update.getMessage()));
+        }
+    }
+
+    @SneakyThrows
+    public void sendMessage(String message) {
+        execute(new SendMessage(chatId, message));
+    }
+
+    private void process(Processor processor, Message message) {
+        Long chatId = message.getChatId();
+        processor.process(message, processedMessage -> executeMessageSending(chatId, processedMessage));
+    }
+
+    @SneakyThrows
+    private void executeMessageSending(Long chatId, String message) {
+        super.execute(new SendMessage(chatId, message));
+    }
+
+    @SneakyThrows
+    private void setTyping(Long chatId) {
+        super.execute(new SendChatAction(chatId, ActionType.TYPING.toString()));
+    }
+
+    @PostConstruct
+    private void onBeanCreate() {
+        sendMessage(String.format("Started on: %s", LocalDateTime.now()));
     }
 }
