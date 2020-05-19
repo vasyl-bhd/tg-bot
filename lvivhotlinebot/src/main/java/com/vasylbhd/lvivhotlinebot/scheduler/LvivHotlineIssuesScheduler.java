@@ -35,20 +35,20 @@ public class LvivHotlineIssuesScheduler {
         new LvivHotlineIssuesParserImpl()
                 .parse(LocalDate.now(), LocalDate.now().plus(1, ChronoUnit.DAYS))
                 .stream()
-                .filter(this::containAction)
+                .filter(this::notContainsAction)
                 .map(LvivHotlineResponse::fromAction)
                 .map(LvivHotlineResponse::toTelegramResponse)
                 .forEach(lvivHotlineBot::sendMessage);
     }
 
-    private boolean containAction(Action action) {
+    private boolean notContainsAction(Action action) {
         String actionId = action.getId();
-        boolean contains = inMemoryDao.contains(actionId);
-        if (!contains) {
+        boolean notContains = !inMemoryDao.contains(actionId);
+        if (notContains) {
             inMemoryDao.save(action);
         }
         log.info("Saved id {}", actionId);
-        return contains;
+        return notContains;
     }
 
     @Scheduled(fixedDelay = CLEAN_UP_DELAY)
