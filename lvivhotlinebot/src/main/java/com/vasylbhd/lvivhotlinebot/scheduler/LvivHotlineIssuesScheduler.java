@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit;
 @Slf4j
 public class LvivHotlineIssuesScheduler {
 
-    private static final int CLEAN_UP_DELAY = 3900000;
+    private static final String CLEANUP_CRON = "0 0 6 * * MON";
     private static final long PARSING_DELAY = 3600000;
 
     private final InMemoryDao inMemoryDao;
@@ -51,7 +51,7 @@ public class LvivHotlineIssuesScheduler {
         return notContains;
     }
 
-    @Scheduled(fixedDelay = CLEAN_UP_DELAY)
+    @Scheduled(cron = CLEANUP_CRON)
     void cleanUpDb() {
         boolean removed = inMemoryDao.getAll().entrySet()
                 .removeIf(entry -> LocalDateTime.now().isAfter(entry.getValue()));
