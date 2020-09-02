@@ -3,6 +3,7 @@ package com.vasylbhd.lvivhotlinebot.scheduler;
 import com.vasylbhd.lvivhotlinebot.bot.LvivHotlineBot;
 import com.vasylbhd.lvivhotlinebot.dao.InMemoryDao;
 import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.Action;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class LvivHotlineIssuesScheduler {
 
     private static final String CLEANUP_CRON = "0 0 6 * * MON";
@@ -23,22 +25,19 @@ public class LvivHotlineIssuesScheduler {
     private final InMemoryDao inMemoryDao;
     private final LvivHotlineBot lvivHotlineBot;
 
-    public LvivHotlineIssuesScheduler(
-            InMemoryDao inMemoryDao,
-            LvivHotlineBot lvivHotlineBot) {
-        this.inMemoryDao = inMemoryDao;
-        this.lvivHotlineBot = lvivHotlineBot;
-    }
-
     @Scheduled(fixedDelay = PARSING_DELAY)
     void parseAndSend() {
-        new LvivHotlineIssuesParserImpl()
-                .parse(LocalDate.now(), LocalDate.now().plus(1, ChronoUnit.DAYS))
-                .stream()
-                .filter(this::notContainsAction)
-                .map(LvivHotlineResponse::fromAction)
-                .map(LvivHotlineResponse::toTelegramResponse)
-                .forEach(lvivHotlineBot::sendMessage);
+        try {
+            new LvivHotlineIssuesParserImpl()
+                    .parse(LocalDate.now(), LocalDate.now().plus(1, ChronoUnit.DAYS))
+                    .stream()
+                    .filter(this::notContainsAction)
+                    .map(LvivHotlineResponse::fromAction)
+                    .map(LvivHotlineResponse::toTelegramResponse)
+                    .forEach(lvivHotlineBot::sendMessage);
+        } catch (Exception e) {
+            lvivHotlineBot.sendMessage("Error while parsing 1580: " + e.getMessage());
+        }
     }
 
     private boolean notContainsAction(Action action) {
@@ -56,6 +55,5 @@ public class LvivHotlineIssuesScheduler {
         boolean removed = inMemoryDao.getAll().entrySet()
                 .removeIf(entry -> LocalDateTime.now().isAfter(entry.getValue()));
         log.info("Is there were removed items: {}", removed);
-
     }
 }

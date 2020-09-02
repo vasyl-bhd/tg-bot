@@ -1,6 +1,7 @@
 package com.vasylbhd.lvivhotlinebot.bot;
 
 import com.vasylbhd.lvivhotlinebot.processor.Processor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class LvivHotlineBot extends TelegramLongPollingBot {
     @Value("${telegram.bot.token}")
     protected String token;
@@ -27,10 +29,6 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
     protected String username;
 
     private final List<Processor> processors;
-
-    public LvivHotlineBot(List<Processor> processors) {
-        this.processors = processors;
-    }
 
     @Override
     public String getBotUsername() {

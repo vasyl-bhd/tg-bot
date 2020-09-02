@@ -15,10 +15,6 @@ public class InMemoryDao {
         idToEndDateMap.put(action.getId(), action.getEstimatedEndDate());
     }
 
-    public void remove(String id) {
-        idToEndDateMap.remove(id);
-    }
-
     public boolean contains(String id) {
         return idToEndDateMap.containsKey(id);
     }

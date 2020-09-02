@@ -24,6 +24,14 @@ public class GetInfoCommandProcessor extends CommandProcessor {
 
     @Override
     public void process(Consumer<String> execute) {
+        try {
+            doProcess(execute);
+        } catch (Exception e) {
+            execute.accept("Error while parsing 1589: " + e.getMessage());
+        }
+    }
+
+    private void doProcess(Consumer<String> execute) {
         List<String> messages = new LvivHotlineIssuesParserImpl()
                 .parse(LocalDate.now(), LocalDate.now().plus(1, DAYS))
                 .stream()
