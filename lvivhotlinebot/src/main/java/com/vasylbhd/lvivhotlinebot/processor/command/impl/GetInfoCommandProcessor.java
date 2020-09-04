@@ -3,6 +3,7 @@ package com.vasylbhd.lvivhotlinebot.processor.command.impl;
 import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
 import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
+import lombok.extern.slf4j.Slf4j;
 import model.Action;
 import org.springframework.stereotype.Service;
 import parser.LvivHotlineIssuesParserImpl;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
+@Slf4j
 public class GetInfoCommandProcessor extends CommandProcessor {
 
     @Override
@@ -28,6 +30,8 @@ public class GetInfoCommandProcessor extends CommandProcessor {
             doProcess(execute);
         } catch (Exception e) {
             execute.accept("Error while parsing 1589: " + e.getMessage());
+
+            log.error("", e);
         }
     }
 
