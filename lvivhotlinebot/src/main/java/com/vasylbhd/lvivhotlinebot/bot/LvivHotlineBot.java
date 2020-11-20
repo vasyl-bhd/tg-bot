@@ -1,10 +1,10 @@
 package com.vasylbhd.lvivhotlinebot.bot;
 
+import com.vasylbhd.lvivhotlinebot.config.TelegramBotConfigurationProperties;
 import com.vasylbhd.lvivhotlinebot.processor.Processor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
@@ -21,23 +21,18 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class LvivHotlineBot extends TelegramLongPollingBot {
-    @Value("${telegram.bot.token}")
-    protected String token;
-    @Value("${telegram.bot.chatid}")
-    protected Long chatId;
-    @Value("${telegram.bot.username}")
-    protected String username;
 
+    private final TelegramBotConfigurationProperties properties;
     private final List<Processor> processors;
 
     @Override
     public String getBotUsername() {
-        return username;
+        return properties.getBotName();
     }
 
     @Override
     public String getBotToken() {
-        return token;
+        return properties.getToken();
     }
 
     @Override
@@ -50,18 +45,17 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
         }
     }
 
-    @SneakyThrows
-    public void sendMessage(String message) {
-        execute(new SendMessage(chatId, message));
+    public void send(String message) {
+        send(properties.getChatId(), message);
     }
 
     private void process(Processor processor, Message message) {
         Long chatId = message.getChatId();
-        processor.process(message, processedMessage -> executeMessageSending(chatId, processedMessage));
+        processor.process(message, processedMessage -> send(chatId, processedMessage));
     }
 
     @SneakyThrows
-    private void executeMessageSending(Long chatId, String message) {
+    private void send(Long chatId, String message) {
         super.execute(new SendMessage(chatId, message));
     }
 
@@ -72,6 +66,6 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
 
     @PostConstruct
     private void onBeanCreate() {
-        sendMessage(String.format("Started on: %s", LocalDateTime.now()));
+        send(String.format("Started on: %s", LocalDateTime.now()));
     }
 }

@@ -1,6 +1,5 @@
 package com.vasylbhd.lvivhotlinebot.processor.command;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -18,8 +17,8 @@ public enum Command {
         this.value = value;
     }
 
-    private String value;
-    private static Map<String, Command> commandMap = new HashMap<>();
+    private final String value;
+    private static Map<String, Command> commandMap;
 
     static {
         commandMap = stream(values()).collect(toMap(Command::getValue, Function.identity()));

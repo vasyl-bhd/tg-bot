@@ -12,6 +12,8 @@ public abstract class CommandProcessor implements Processor {
 
     public abstract Command getCommand();
 
+    protected abstract void process(Consumer<String> execute);
+
     @Override
     public void process(Message text, Consumer<String> execute) {
         if (isChatIdAcceptable(text.getChatId()) && text.isCommand()) {
@@ -26,6 +28,4 @@ public abstract class CommandProcessor implements Processor {
     protected boolean isChatIdAcceptable(Long chatId) {
         return this.chatId.equals(chatId);
     }
-
-    protected abstract void process(Consumer<String> execute);
 }

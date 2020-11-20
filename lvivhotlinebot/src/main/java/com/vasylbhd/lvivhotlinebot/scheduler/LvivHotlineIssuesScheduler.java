@@ -26,6 +26,7 @@ public class LvivHotlineIssuesScheduler {
     private final LvivHotlineBot lvivHotlineBot;
 
     @Scheduled(fixedDelay = PARSING_DELAY)
+    //TODO maybe use some sort of queue?
     void parseAndSend() {
         try {
             new LvivHotlineIssuesParserImpl()
@@ -34,9 +35,9 @@ public class LvivHotlineIssuesScheduler {
                     .filter(this::notContainsAction)
                     .map(LvivHotlineResponse::fromAction)
                     .map(LvivHotlineResponse::toTelegramResponse)
-                    .forEach(lvivHotlineBot::sendMessage);
+                    .forEach(lvivHotlineBot::send);
         } catch (Exception e) {
-            lvivHotlineBot.sendMessage("Error while parsing 1580: " + e.getMessage());
+            lvivHotlineBot.send("Error while parsing 1580: " + e.getMessage());
         }
     }
 

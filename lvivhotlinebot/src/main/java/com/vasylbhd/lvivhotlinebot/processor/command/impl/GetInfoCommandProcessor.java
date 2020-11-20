@@ -29,7 +29,7 @@ public class GetInfoCommandProcessor extends CommandProcessor {
         try {
             doProcess(execute);
         } catch (Exception e) {
-            execute.accept("Error while parsing 1589: " + e.getMessage());
+            execute.accept("Error while parsing 1580: " + e.getMessage());
 
             log.error("", e);
         }

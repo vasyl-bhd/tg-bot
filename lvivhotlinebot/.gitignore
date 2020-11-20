@@ -31,5 +31,3 @@ build/
 .vscode/
 
 build-and-push.sh
-
-src/main/resources/application.yml

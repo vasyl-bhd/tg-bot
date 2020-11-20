@@ -10,7 +10,5 @@ import java.util.function.Consumer;
 public class CasualConversationProcessor implements Processor {
 
     @Override
-    public void process(Message text, Consumer<String> action) {
-
-    }
+    public void process(Message text, Consumer<String> action) { }
 }

@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,17 +21,15 @@ public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
     @Override
     @SneakyThrows
     public List<Action> parse(LocalDate from, LocalDate to) {
-
-        Document post = Jsoup.connect(LVIV_HOTLINE_URL)
+        return Jsoup.connect(LVIV_HOTLINE_URL)
                 .data("data", getRequestData(from, to))
                 .data("rn", "0")
                 .data("all", "1")
                 .data("isFrame", "")
                 .data("hr", "1")
                 .data("frameJeoId", "0")
-                .post();
-
-        return post.select(ROW_CLASS)
+                .post()
+                .select(ROW_CLASS)
                 .stream()
                 .map(ElementConverter::toAction)
                 .collect(Collectors.toList());
