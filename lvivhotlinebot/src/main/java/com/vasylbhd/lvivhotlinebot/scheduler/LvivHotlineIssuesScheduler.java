@@ -26,7 +26,6 @@ public class LvivHotlineIssuesScheduler {
     private final LvivHotlineBot lvivHotlineBot;
 
     @Scheduled(fixedDelay = PARSING_DELAY)
-    //TODO maybe use some sort of queue?
     void parseAndSend() {
         try {
             new LvivHotlineIssuesParserImpl()

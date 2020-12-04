@@ -2,6 +2,8 @@ package com.vasylbhd.lvivhotlinebot.processor.command;
 
 import com.vasylbhd.lvivhotlinebot.processor.Processor;
 import org.springframework.beans.factory.annotation.Value;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.function.Consumer;
@@ -14,13 +16,12 @@ public abstract class CommandProcessor implements Processor {
 
     protected abstract void process(Consumer<String> execute);
 
-    @Override
-    public void process(Message text, Consumer<String> execute) {
-        if (isChatIdAcceptable(text.getChatId()) && text.isCommand()) {
-            Command executedCommand = Command.fromString(text.getText())
+    public void process(Message message, Consumer<? super BotApiMethod<Message>> action) {
+        if (isChatIdAcceptable(message.getChatId()) && message.isCommand()) {
+            Command executedCommand = Command.fromString(message.getText())
                     .orElse(Command.DEFAULT_COMMAND);
             if (executedCommand == getCommand()) {
-                process(execute);
+                process(msg -> action.accept(new SendMessage(message.getChatId().toString(), msg)));
             }
         }
     }

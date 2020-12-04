@@ -1,8 +1,8 @@
 package com.vasylbhd.lvivhotlinebot.processor;
 
-import com.vasylbhd.lvivhotlinebot.processor.Processor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
@@ -11,17 +11,16 @@ import java.util.function.Consumer;
 
 import static java.lang.String.format;
 
-@Service
 public class UnknownUserProcessor implements Processor {
 
     @Value("${telegram.bot.chatid}")
     protected Long chatId;
 
     @Override
-    public void process(Message text, Consumer<String> execute) {
+    public void process(Message text, Consumer<? super BotApiMethod<Message>> action) {
         if (!chatId.equals(text.getChatId())) {
             List<String> message = getMessage(text);
-            message.forEach(execute);
+            message.forEach(msg -> action.accept(new SendMessage(text.getChatId().toString(), msg)));
         }
     }
 
