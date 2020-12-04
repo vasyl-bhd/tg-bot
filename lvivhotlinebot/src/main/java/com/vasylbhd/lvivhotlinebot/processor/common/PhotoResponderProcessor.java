@@ -1,4 +1,4 @@
-package com.vasylbhd.lvivhotlinebot.processor.command.impl;
+package com.vasylbhd.lvivhotlinebot.processor.common;
 
 import com.vasylbhd.lvivhotlinebot.config.TelegramBotConfigurationProperties;
 import com.vasylbhd.lvivhotlinebot.processor.Processor;

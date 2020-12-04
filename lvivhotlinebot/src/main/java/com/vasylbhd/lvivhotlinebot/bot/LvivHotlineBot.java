@@ -77,6 +77,6 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
     public void onRegister() {
         super.onRegister();
 
-        //send(String.format("Started on: %s", LocalDateTime.now()));
+        send(String.format("Started on: %s", LocalDateTime.now()));
     }
 }
