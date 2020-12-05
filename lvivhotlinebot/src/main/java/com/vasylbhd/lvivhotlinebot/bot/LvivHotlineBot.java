@@ -15,6 +15,7 @@ import org.telegram.abilitybots.api.objects.Privacy;
 import org.telegram.abilitybots.api.toggle.AbilityToggle;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
@@ -49,14 +50,12 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
     @Override
     @SneakyThrows
     public void onUpdateReceived(Update update) {
-        log.debug("{}", update);
-
         if (update.hasMessage()) {
-            setTyping(update.getMessage().getChatId());
-            Message message = update.getMessage();
 
-            processors.forEach(processor ->
-                    processor.process(message, this::send));
+            Message message = update.getMessage();
+            setTyping(message.getChatId());
+
+            processors.forEach(processor -> processor.process(message, this::send));
         }
     }
 
@@ -65,7 +64,7 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
     }
 
     @SneakyThrows
-    private void send(BotApiMethod<Message> message) {
+    private void send(BotApiMethod<? extends BotApiObject> message) {
         execute(message);
     }
 

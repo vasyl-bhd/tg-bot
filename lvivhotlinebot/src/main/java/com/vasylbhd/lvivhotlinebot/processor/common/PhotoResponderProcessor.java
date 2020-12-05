@@ -29,14 +29,20 @@ public class PhotoResponderProcessor implements Processor {
             "I mean...thanks?",
             "Йосі досі.",
             "Soo cool!",
-            "now that's getting weird..");
+            "Now that's getting weird..",
+            "What a beautiful photo!",
+            "私は死にたい",
+            "Did you know that gods of death love apples?",
+            "The cake is a lie");
 
     @Override
     public void process(Message message, Consumer<? super BotApiMethod<Message>> action) {
         String userName = message.getFrom().getUserName();
-        if (message.getPhoto() != null && chatId.equals(message.getChatId())) {
+        if (!(message.getPhoto() == null || chatId.equals(message.getChatId())))
+        {
             action.accept(new SendMessage(message.getChatId().toString(), getRandomElementFromList()));
             action.accept(new ForwardMessage(chatId.toString(), message.getChatId().toString(), message.getMessageId()));
+
             log.info("Message received from: {}", userName);
         }
     }
