@@ -2,30 +2,19 @@ package com.vasylbhd.lvivhotlinebot.bot;
 
 import com.vasylbhd.lvivhotlinebot.config.TelegramBotConfigurationProperties;
 import com.vasylbhd.lvivhotlinebot.processor.Processor;
-import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.telegram.abilitybots.api.bot.AbilityBot;
-import org.telegram.abilitybots.api.db.DBContext;
-import org.telegram.abilitybots.api.objects.Ability;
-import org.telegram.abilitybots.api.objects.Locality;
-import org.telegram.abilitybots.api.objects.Privacy;
-import org.telegram.abilitybots.api.toggle.AbilityToggle;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -48,7 +37,6 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
     }
 
     @Override
-    @SneakyThrows
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
 

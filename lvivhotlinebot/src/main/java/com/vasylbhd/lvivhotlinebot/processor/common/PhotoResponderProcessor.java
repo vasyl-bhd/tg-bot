@@ -1,8 +1,6 @@
 package com.vasylbhd.lvivhotlinebot.processor.common;
 
-import com.vasylbhd.lvivhotlinebot.config.TelegramBotConfigurationProperties;
 import com.vasylbhd.lvivhotlinebot.processor.Processor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,17 +31,16 @@ public class PhotoResponderProcessor implements Processor {
             "What a beautiful photo!",
             "私は死にたい",
             "Did you know that gods of death love apples?",
-            "The cake is a lie");
+            "The cake is a lie",
+            "ТА ШО ТИ ДЄЛАЇШ ЗІ МНОУ!");
 
     @Override
     public void process(Message message, Consumer<? super BotApiMethod<Message>> action) {
-        String userName = message.getFrom().getUserName();
-        if (!(message.getPhoto() == null || chatId.equals(message.getChatId())))
-        {
+        if (!(message.getPhoto() == null || chatId.equals(message.getChatId()))) {
             action.accept(new SendMessage(message.getChatId().toString(), getRandomElementFromList()));
             action.accept(new ForwardMessage(chatId.toString(), message.getChatId().toString(), message.getMessageId()));
 
-            log.info("Message received from: {}", userName);
+            log.info("Message received from: {}", message.getFrom().getUserName());
         }
     }
 

@@ -3,6 +3,7 @@ package com.vasylbhd.lvivhotlinebot.processor.command.impl;
 import com.vasylbhd.lvivhotlinebot.model.RedditResponse;
 import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -12,13 +13,10 @@ import java.util.function.Consumer;
 import static java.lang.String.format;
 
 @Service
+@RequiredArgsConstructor
 public class RandomMemeCommandProcessor extends CommandProcessor {
 
     private final WebClient webClient;
-
-    public RandomMemeCommandProcessor(WebClient webClient) {
-        this.webClient = webClient;
-    }
 
     @Override
     public Command getCommand() {
@@ -34,6 +32,7 @@ public class RandomMemeCommandProcessor extends CommandProcessor {
                 .flatMapIterable(Arrays::asList)
                 .map(this::getMessage)
                 .doOnNext(execute)
+                .doOnError(e -> execute.accept(e.getMessage()))
                 .blockLast();
     }
 
