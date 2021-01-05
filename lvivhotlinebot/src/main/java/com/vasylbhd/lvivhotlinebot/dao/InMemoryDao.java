@@ -12,7 +12,7 @@ public class InMemoryDao {
     private static final Map<String, LocalDateTime> idToEndDateMap = new HashMap<>();
 
     public void save(Action action) {
-        idToEndDateMap.put(action.getId(), action.getEstimatedEndDate());
+        idToEndDateMap.put(action.id(), action.estimatedEndDate());
     }
 
     public boolean contains(String id) {

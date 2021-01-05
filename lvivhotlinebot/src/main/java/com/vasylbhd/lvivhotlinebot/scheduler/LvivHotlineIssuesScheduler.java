@@ -41,7 +41,7 @@ public class LvivHotlineIssuesScheduler {
     }
 
     private boolean notContainsAction(Action action) {
-        String actionId = action.getId();
+        String actionId = action.id();
         boolean notContains = !inMemoryDao.contains(actionId);
         if (notContains) {
             inMemoryDao.save(action);
