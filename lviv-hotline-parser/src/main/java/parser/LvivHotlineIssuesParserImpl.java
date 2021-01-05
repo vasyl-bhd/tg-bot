@@ -28,9 +28,7 @@ public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
     @Override
     @SneakyThrows
     public List<Action> parse(LocalDate from, LocalDate to) {
-        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
         return Jsoup.connect(LVIV_HOTLINE_URL)
-                .sslSocketFactory(socketFactory())
                 .data("data", getRequestData(from, to))
                 .data("rn", "0")
                 .data("all", "1")
@@ -42,29 +40,6 @@ public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
                 .stream()
                 .map(ElementConverter::toAction)
                 .collect(Collectors.toList());
-    }
-
-    static private SSLSocketFactory socketFactory() {
-        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return new X509Certificate[0];
-            }
-
-            public void checkClientTrusted(X509Certificate[] certs, String authType) {
-            }
-
-            public void checkServerTrusted(X509Certificate[] certs, String authType) {
-            }
-        }};
-
-        try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-
-            return sslContext.getSocketFactory();
-        } catch (NoSuchAlgorithmException | KeyManagementException e) {
-            throw new RuntimeException("Failed to create a SSL socket factory", e);
-        }
     }
 
     private String getRequestData(LocalDate from, LocalDate to) {
