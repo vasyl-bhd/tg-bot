@@ -7,13 +7,14 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,35 +38,32 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        log.debug("{}", update);
-
         if (update.hasMessage()) {
-            setTyping(update.getMessage().getChatId());
-            processors.forEach(processor -> process(processor, update.getMessage()));
+
+            Message message = update.getMessage();
+            setTyping(message.getChatId());
+
+            processors.forEach(processor -> processor.process(message, this::send));
         }
     }
 
     public void send(String message) {
-        send(properties.getChatId(), message);
-    }
-
-    private void process(Processor processor, Message message) {
-        Long chatId = message.getChatId();
-        processor.process(message, processedMessage -> send(chatId, processedMessage));
+        send(new SendMessage(properties.getChatId().toString(), message));
     }
 
     @SneakyThrows
-    private void send(Long chatId, String message) {
-        super.execute(new SendMessage(chatId, message));
+    private void send(BotApiMethod<? extends BotApiObject> message) {
+        execute(message);
     }
 
     @SneakyThrows
     private void setTyping(Long chatId) {
-        super.execute(new SendChatAction(chatId, ActionType.TYPING.toString()));
+        execute(new SendChatAction(Long.toString(chatId), ActionType.TYPING.toString()));
     }
 
-    @PostConstruct
-    private void onBeanCreate() {
+    public void onRegister() {
+        super.onRegister();
+
         send(String.format("Started on: %s", LocalDateTime.now()));
     }
 }
