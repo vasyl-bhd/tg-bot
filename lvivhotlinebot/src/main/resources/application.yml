@@ -3,8 +3,9 @@ telegram:
     chat-id: ${BOT_CHAT_ID}
     token: ${BOT_TOKEN}
     bot-name: ${BOT_USERNAME}
+    meme-api-host-url: ${MEME_API_HOST_URL}
 server:
   port: 8081
 spring:
   main:
-    banner-mode: off
+    banner-mode: console

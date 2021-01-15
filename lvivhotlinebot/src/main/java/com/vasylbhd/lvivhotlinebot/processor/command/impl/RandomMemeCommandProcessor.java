@@ -27,20 +27,19 @@ public class RandomMemeCommandProcessor extends CommandProcessor {
     protected void process(Consumer<String> execute) {
         webClient.get().uri("/random")
                 .retrieve()
-                .bodyToMono(RedditResponse[].class)
+                .bodyToMono(RedditResponse.class)
                 .log()
-                .flatMapIterable(Arrays::asList)
                 .map(this::getMessage)
                 .doOnNext(execute)
                 .doOnError(e -> execute.accept(e.getMessage()))
-                .blockLast();
+                .subscribe();
     }
 
     public String getMessage(RedditResponse redditResponse) {
         return format("%s\nBy: %s\nFrom: %s\n%s",
-                redditResponse.getTitle(),
-                redditResponse.getAuthor(),
-                redditResponse.getPostUrl(),
-                redditResponse.getMessage());
+                redditResponse.title(),
+                redditResponse.author(),
+                redditResponse.postUrl(),
+                redditResponse.message());
     }
 }

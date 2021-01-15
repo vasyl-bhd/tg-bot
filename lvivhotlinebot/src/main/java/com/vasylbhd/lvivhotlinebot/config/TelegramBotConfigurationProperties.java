@@ -12,4 +12,5 @@ public class TelegramBotConfigurationProperties {
     private String token;
     private Long chatId;
     private String botName;
+    private String memeApiHostUrl;
 }
