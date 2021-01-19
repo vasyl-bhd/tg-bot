@@ -2,15 +2,16 @@ kind: pipeline
 type: docker
 name: telegram-bot
 
+trigger:
+  event:
+    - push
+    - rollback
+  branch:
+    - master
+
 steps:
   - name: greeting
     image: alpine
     commands:
       - echo hello
       - echo world!
-    when:
-      event:
-        - push
-        - rollback
-      branch:
-        - master
