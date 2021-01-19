@@ -8,3 +8,9 @@ steps:
     commands:
       - echo hello
       - echo world!
+    when:
+      event:
+        - push
+        - rollback
+      branch:
+        - master
