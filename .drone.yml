@@ -10,8 +10,25 @@ trigger:
     - master
 
 steps:
-  - name: greeting
+  - name: build
+    image: maven:3.6.3-adoptopenjdk-15
+    commands:
+      - mvn install
+
+  - name: copy
     image: alpine
     commands:
-      - echo hello
-      - echo world!
+      - cp /drone/src/lvivhotlinebot/target/lvivhotlinebot-0.0.1-SNAPSHOT.jar /drone/src/
+      - cp /drone/src/lvivhotlinebot/Dockerfile /drone/src/
+
+  - name: push
+    image: plugins/docker
+    settings:
+      repo:
+        from_secret: docker_repo
+      tags: [ "bot_app" ]
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
