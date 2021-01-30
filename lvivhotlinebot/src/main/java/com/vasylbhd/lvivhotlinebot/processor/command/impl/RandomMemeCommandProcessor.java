@@ -5,9 +5,8 @@ import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static java.lang.String.format;
@@ -16,7 +15,7 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class RandomMemeCommandProcessor extends CommandProcessor {
 
-    private final WebClient webClient;
+    private final RestTemplate restTemplate;
 
     @Override
     public Command getCommand() {
@@ -25,14 +24,12 @@ public class RandomMemeCommandProcessor extends CommandProcessor {
 
     @Override
     protected void process(Consumer<String> execute) {
-        webClient.get().uri("/random")
-                .retrieve()
-                .bodyToMono(RedditResponse.class)
-                .log()
-                .map(this::getMessage)
-                .doOnNext(execute)
-                .doOnError(e -> execute.accept(e.getMessage()))
-                .subscribe();
+        try {
+            RedditResponse forObject = restTemplate.getForObject("/random", RedditResponse.class);
+            execute.accept(this.getMessage(forObject));
+        } catch (Exception e) {
+            execute.accept(e.getMessage());
+        }
     }
 
     public String getMessage(RedditResponse redditResponse) {
