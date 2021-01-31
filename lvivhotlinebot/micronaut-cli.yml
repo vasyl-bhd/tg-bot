@@ -1,0 +1,5 @@
+applicationType: cli
+defaultPackage: com.vasylb
+sourceLanguage: java
+buildTool: maven
+features: [annotation-api, app-name, http-client, java, junit, logback, lombok, maven, picocli, picocli-java-application, picocli-junit, readme, shade, yaml]

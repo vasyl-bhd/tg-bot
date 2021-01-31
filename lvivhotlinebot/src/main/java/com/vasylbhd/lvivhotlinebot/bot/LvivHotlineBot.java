@@ -5,7 +5,6 @@ import com.vasylbhd.lvivhotlinebot.processor.Processor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
@@ -15,10 +14,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import javax.inject.Singleton;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
+@Singleton
 @Slf4j
 @RequiredArgsConstructor
 public class LvivHotlineBot extends TelegramLongPollingBot {

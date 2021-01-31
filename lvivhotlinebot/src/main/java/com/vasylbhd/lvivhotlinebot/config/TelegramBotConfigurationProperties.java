@@ -1,16 +1,12 @@
 package com.vasylbhd.lvivhotlinebot.config;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import io.micronaut.context.annotation.ConfigurationProperties;
 
 @ConfigurationProperties("telegram.bot")
-@Configuration
-@Data
-public class TelegramBotConfigurationProperties {
+public interface TelegramBotConfigurationProperties {
 
-    private String token;
-    private Long chatId;
-    private String botName;
-    private String memeApiHostUrl;
+    String getToken();
+    Long getChatId();
+    String getBotName();
+    String getMemeApiHostUrl();
 }

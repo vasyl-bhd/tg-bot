@@ -1,7 +1,8 @@
 package com.vasylbhd.lvivhotlinebot.processor.command;
 
 import com.vasylbhd.lvivhotlinebot.processor.Processor;
-import org.springframework.beans.factory.annotation.Value;
+import io.micronaut.context.annotation.Property;
+import io.micronaut.context.annotation.Value;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -9,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.function.Consumer;
 
 public abstract class CommandProcessor implements Processor {
-    @Value("${telegram.bot.chatid}")
+    @Value("${telegram.bot.chat-id}")
     protected Long chatId;
 
     public abstract Command getCommand();

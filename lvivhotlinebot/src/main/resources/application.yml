@@ -4,8 +4,3 @@ telegram:
     token: ${BOT_TOKEN}
     bot-name: ${BOT_USERNAME}
     meme-api-host-url: ${MEME_API_HOST_URL}
-server:
-  port: 8081
-spring:
-  main:
-    banner-mode: console

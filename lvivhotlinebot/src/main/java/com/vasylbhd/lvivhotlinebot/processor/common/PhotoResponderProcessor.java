@@ -1,23 +1,23 @@
 package com.vasylbhd.lvivhotlinebot.processor.common;
 
 import com.vasylbhd.lvivhotlinebot.processor.Processor;
+import io.micronaut.context.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import javax.inject.Singleton;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
-@Service
+@Singleton
 @Slf4j
 public class PhotoResponderProcessor implements Processor {
 
-    @Value("${telegram.bot.chatid}")
+    @Value("${telegram.bot.chat-id}")
     protected Long chatId;
 
     private static final List<String> phrases = List.of(

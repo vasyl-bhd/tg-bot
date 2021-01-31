@@ -4,10 +4,9 @@ import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
 import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
 import lombok.extern.slf4j.Slf4j;
-import model.Action;
-import org.springframework.stereotype.Service;
 import parser.LvivHotlineIssuesParserImpl;
 
+import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Consumer;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-@Service
+@Singleton
 @Slf4j
 public class GetInfoCommandProcessor extends CommandProcessor {
 

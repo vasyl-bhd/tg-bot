@@ -3,29 +3,28 @@ package com.vasylbhd.lvivhotlinebot.scheduler;
 import com.vasylbhd.lvivhotlinebot.bot.LvivHotlineBot;
 import com.vasylbhd.lvivhotlinebot.dao.InMemoryDao;
 import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
+import io.micronaut.scheduling.annotation.Scheduled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.Action;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 import parser.LvivHotlineIssuesParserImpl;
 
+import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-@Service
+@Singleton
 @Slf4j
 @RequiredArgsConstructor
 public class LvivHotlineIssuesScheduler {
 
     private static final String CLEANUP_CRON = "0 0 6 * * MON";
-    private static final long PARSING_DELAY = 3600000;
 
     private final InMemoryDao inMemoryDao;
     private final LvivHotlineBot lvivHotlineBot;
 
-    @Scheduled(fixedDelay = PARSING_DELAY)
+    @Scheduled(fixedDelay = "1h")
     void parseAndSend() {
         try {
             new LvivHotlineIssuesParserImpl()

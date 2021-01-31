@@ -1,13 +1,13 @@
 package com.vasylbhd.lvivhotlinebot.dao;
 
 import model.Action;
-import org.springframework.stereotype.Service;
 
+import javax.inject.Singleton;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+@Singleton
 public class InMemoryDao {
     private static final Map<String, LocalDateTime> idToEndDateMap = new HashMap<>();
 

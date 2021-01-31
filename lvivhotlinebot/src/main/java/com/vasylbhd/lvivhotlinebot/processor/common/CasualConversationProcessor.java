@@ -1,13 +1,13 @@
 package com.vasylbhd.lvivhotlinebot.processor.common;
 
 import com.vasylbhd.lvivhotlinebot.processor.Processor;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import javax.inject.Singleton;
 import java.util.function.Consumer;
 
-@Service
+@Singleton
 public class CasualConversationProcessor implements Processor {
 
     @Override

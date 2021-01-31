@@ -1,21 +1,21 @@
 package com.vasylbhd.lvivhotlinebot.processor.command.impl;
 
+import com.vasylbhd.lvivhotlinebot.config.MemeApiClient;
 import com.vasylbhd.lvivhotlinebot.model.RedditResponse;
 import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
+import javax.inject.Singleton;
 import java.util.function.Consumer;
 
 import static java.lang.String.format;
 
-@Service
+@Singleton
 @RequiredArgsConstructor
 public class RandomMemeCommandProcessor extends CommandProcessor {
 
-    private final RestTemplate restTemplate;
+    private final MemeApiClient memeApiClient;
 
     @Override
     public Command getCommand() {
@@ -24,12 +24,11 @@ public class RandomMemeCommandProcessor extends CommandProcessor {
 
     @Override
     protected void process(Consumer<String> execute) {
-        try {
-            RedditResponse forObject = restTemplate.getForObject("/random", RedditResponse.class);
-            execute.accept(this.getMessage(forObject));
-        } catch (Exception e) {
-            execute.accept(e.getMessage());
-        }
+        memeApiClient.getRandomMeme()
+                .map(this::getMessage)
+                .doOnSuccess(execute::accept)
+                .doOnError(e -> execute.accept(e.getMessage()))
+                .subscribe();
     }
 
     public String getMessage(RedditResponse redditResponse) {

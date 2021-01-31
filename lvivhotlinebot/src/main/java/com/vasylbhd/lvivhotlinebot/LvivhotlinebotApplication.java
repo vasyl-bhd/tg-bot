@@ -1,16 +1,10 @@
 package com.vasylbhd.lvivhotlinebot;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import io.micronaut.runtime.Micronaut;
 
-@SpringBootApplication
-@EnableScheduling
 public class LvivhotlinebotApplication {
 
-	public static void main(String[] args) {
-		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
-		SpringApplication.run(LvivhotlinebotApplication.class, args);
-	}
-
+    public static void main(String[] args) throws Exception {
+        Micronaut.run(LvivhotlinebotApplication.class, args);
+    }
 }
