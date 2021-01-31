@@ -26,6 +26,7 @@ public class LvivHotlineIssuesScheduler {
 
     @Scheduled(fixedDelay = "1h")
     void parseAndSend() {
+        log.info("Starting 1580 crawling job...");
         try {
             new LvivHotlineIssuesParserImpl()
                     .parse(LocalDate.now(), LocalDate.now().plus(1, ChronoUnit.DAYS))
@@ -51,6 +52,8 @@ public class LvivHotlineIssuesScheduler {
 
     @Scheduled(cron = CLEANUP_CRON)
     void cleanUpDb() {
+        log.info("Starting cleaning up job. About to remove {} records",
+                inMemoryDao.getAll().size());
         boolean removed = inMemoryDao.getAll().entrySet()
                 .removeIf(entry -> LocalDateTime.now().isAfter(entry.getValue()));
         log.info("Is there were removed items: {}", removed);
