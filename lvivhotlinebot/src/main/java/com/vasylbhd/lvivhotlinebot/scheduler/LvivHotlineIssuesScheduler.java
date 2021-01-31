@@ -2,18 +2,13 @@ package com.vasylbhd.lvivhotlinebot.scheduler;
 
 import com.vasylbhd.lvivhotlinebot.bot.LvivHotlineBot;
 import com.vasylbhd.lvivhotlinebot.dao.InMemoryDao;
-import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
 import com.vasylbhd.lvivhotlinebot.processor.command.impl.GetInfoCommandProcessor;
 import io.micronaut.scheduling.annotation.Scheduled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import model.Action;
-import parser.LvivHotlineIssuesParserImpl;
 
 import javax.inject.Singleton;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Singleton
 @Slf4j
