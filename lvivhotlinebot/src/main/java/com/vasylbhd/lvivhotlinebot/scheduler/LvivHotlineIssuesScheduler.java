@@ -24,7 +24,7 @@ public class LvivHotlineIssuesScheduler {
     private final InMemoryDao inMemoryDao;
     private final LvivHotlineBot lvivHotlineBot;
 
-    @Scheduled(fixedDelay = "1h")
+    @Scheduled(fixedDelay ="60m")
     void parseAndSend() {
         log.info("Starting 1580 crawling job...");
         try {
@@ -37,6 +37,8 @@ public class LvivHotlineIssuesScheduler {
                     .forEach(lvivHotlineBot::send);
         } catch (Exception e) {
             lvivHotlineBot.send("Error while parsing 1580: " + e.getMessage());
+        } finally {
+            log.info("Crawling job has finished");
         }
     }
 
