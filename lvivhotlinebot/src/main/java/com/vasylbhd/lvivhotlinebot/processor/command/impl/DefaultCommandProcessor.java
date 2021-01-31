@@ -12,12 +12,12 @@ import java.util.function.Consumer;
 public class DefaultCommandProcessor extends CommandProcessor {
 
     @Override
-    public Command getCommand() {
+    public Command getCommandName() {
         return Command.DEFAULT_COMMAND;
     }
 
     @Override
-    protected void process(Consumer<String> execute) {
+    protected void processCommand(Consumer<String> execute) {
         execute.accept("Why are we still here? Just to suffer?");
     }
 }

@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 public class CasualConversationProcessor implements Processor {
 
     @Override
-    public void process(Message text, Consumer<? super BotApiMethod<Message>> action) {
+    public void processMessage(Message text, Consumer<? super BotApiMethod<Message>> action) {
 
     }
 }

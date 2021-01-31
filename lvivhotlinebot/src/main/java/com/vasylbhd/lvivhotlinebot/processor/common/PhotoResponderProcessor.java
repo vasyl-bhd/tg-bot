@@ -35,7 +35,7 @@ public class PhotoResponderProcessor implements Processor {
             "ТА ШО ТИ ДЄЛАЇШ ЗІ МНОУ!");
 
     @Override
-    public void process(Message message, Consumer<? super BotApiMethod<Message>> action) {
+    public void processMessage(Message message, Consumer<? super BotApiMethod<Message>> action) {
         if (message.hasPhoto() && !chatId.equals(message.getChatId())) {
             action.accept(new SendMessage(message.getChatId().toString(), getRandomElementFromList()));
             action.accept(new ForwardMessage(chatId.toString(), message.getChatId().toString(), message.getMessageId()));

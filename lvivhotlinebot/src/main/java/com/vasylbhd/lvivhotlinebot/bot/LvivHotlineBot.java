@@ -43,7 +43,7 @@ public class LvivHotlineBot extends TelegramLongPollingBot {
             Message message = update.getMessage();
             setTyping(message.getChatId());
 
-            processors.forEach(processor -> processor.process(message, this::send));
+            processors.forEach(processor -> processor.processMessage(message, this::send));
         }
     }
 

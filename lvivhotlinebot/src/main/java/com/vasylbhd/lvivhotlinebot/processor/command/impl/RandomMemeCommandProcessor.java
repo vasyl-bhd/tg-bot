@@ -18,12 +18,12 @@ public class RandomMemeCommandProcessor extends CommandProcessor {
     private final MemeApiClient memeApiClient;
 
     @Override
-    public Command getCommand() {
+    public Command getCommandName() {
         return Command.RANDOM_MEME;
     }
 
     @Override
-    protected void process(Consumer<String> execute) {
+    protected void processCommand(Consumer<String> execute) {
         memeApiClient.getRandomMeme()
                 .map(this::getMessage)
                 .doOnSuccess(execute::accept)

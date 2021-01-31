@@ -24,7 +24,7 @@ public class LvivHotlineIssuesScheduler {
     @Scheduled(fixedDelay = "60m")
     void parseAndSend() {
         log.info("Starting 1580 crawling job...");
-        processor.process(lvivHotlineBot::send);
+        processor.processCommand(lvivHotlineBot::send);
         log.info("Crawling job has finished");
     }
 

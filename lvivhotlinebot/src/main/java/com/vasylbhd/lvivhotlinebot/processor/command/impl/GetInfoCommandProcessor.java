@@ -27,12 +27,12 @@ public class GetInfoCommandProcessor extends CommandProcessor {
     private final InMemoryDao inMemoryDao;
 
     @Override
-    public Command getCommand() {
+    public Command getCommandName() {
         return Command.GET_INFO;
     }
 
     @Override
-    public void process(Consumer<String> execute) {
+    public void processCommand(Consumer<String> execute) {
         try {
             doProcess(execute);
         } catch (Exception e) {
