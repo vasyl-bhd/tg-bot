@@ -6,9 +6,7 @@ import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import model.Action;
 import parser.LvivHotlineIssuesParser;
-import parser.LvivHotlineIssuesParserImpl;
 
 import javax.inject.Singleton;
 import java.time.LocalDate;
@@ -34,7 +32,7 @@ public class GetInfoCommandProcessor extends CommandProcessor {
     @Override
     public void processCommand(Consumer<String> execute) {
         try {
-            doProcess(execute);
+            checkForIssues(execute);
         } catch (Exception e) {
             execute.accept("Error while parsing 1580: " + e.getMessage());
 
@@ -42,29 +40,19 @@ public class GetInfoCommandProcessor extends CommandProcessor {
         }
     }
 
-    private void doProcess(Consumer<String> execute) {
+    private void checkForIssues(Consumer<String> onIssue) {
         List<String> messages = parser.parse(LocalDate.now(), LocalDate.now().plus(1, DAYS))
                 .stream()
-                .filter(this::notContainsAction)
                 .map(LvivHotlineResponse::fromAction)
                 .map(LvivHotlineResponse::toTelegramResponse)
                 .collect(Collectors.toList());
 
         if (messages.isEmpty()) {
-            execute.accept("No new issues with water");
+            onIssue.accept("No new issues with water");
             return;
         }
 
-        messages.forEach(execute);
+        messages.forEach(onIssue);
     }
 
-    private boolean notContainsAction(Action action) {
-        String actionId = action.id();
-        boolean notContains = !inMemoryDao.contains(actionId);
-        if (notContains) {
-            inMemoryDao.save(action);
-        }
-        log.info("Saved id {}", actionId);
-        return notContains;
-    }
 }
