@@ -1,9 +1,13 @@
 package com.vasylbhd.lvivhotlinebot.processor.command.impl;
 
+import com.vasylbhd.lvivhotlinebot.dao.InMemoryDao;
 import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
 import com.vasylbhd.lvivhotlinebot.processor.command.Command;
 import com.vasylbhd.lvivhotlinebot.processor.command.CommandProcessor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import model.Action;
+import parser.LvivHotlineIssuesParser;
 import parser.LvivHotlineIssuesParserImpl;
 
 import javax.inject.Singleton;
@@ -15,8 +19,12 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Singleton
+@RequiredArgsConstructor
 @Slf4j
 public class GetInfoCommandProcessor extends CommandProcessor {
+
+    private final LvivHotlineIssuesParser parser;
+    private final InMemoryDao inMemoryDao;
 
     @Override
     public Command getCommand() {
@@ -35,9 +43,9 @@ public class GetInfoCommandProcessor extends CommandProcessor {
     }
 
     private void doProcess(Consumer<String> execute) {
-        List<String> messages = new LvivHotlineIssuesParserImpl()
-                .parse(LocalDate.now(), LocalDate.now().plus(1, DAYS))
+        List<String> messages = parser.parse(LocalDate.now(), LocalDate.now().plus(1, DAYS))
                 .stream()
+                .filter(this::notContainsAction)
                 .map(LvivHotlineResponse::fromAction)
                 .map(LvivHotlineResponse::toTelegramResponse)
                 .collect(Collectors.toList());
@@ -48,5 +56,15 @@ public class GetInfoCommandProcessor extends CommandProcessor {
         }
 
         messages.forEach(execute);
+    }
+
+    private boolean notContainsAction(Action action) {
+        String actionId = action.id();
+        boolean notContains = !inMemoryDao.contains(actionId);
+        if (notContains) {
+            inMemoryDao.save(action);
+        }
+        log.info("Saved id {}", actionId);
+        return notContains;
     }
 }

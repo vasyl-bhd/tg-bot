@@ -3,6 +3,7 @@ package com.vasylbhd.lvivhotlinebot.scheduler;
 import com.vasylbhd.lvivhotlinebot.bot.LvivHotlineBot;
 import com.vasylbhd.lvivhotlinebot.dao.InMemoryDao;
 import com.vasylbhd.lvivhotlinebot.model.LvivHotlineResponse;
+import com.vasylbhd.lvivhotlinebot.processor.command.impl.GetInfoCommandProcessor;
 import io.micronaut.scheduling.annotation.Scheduled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,34 +24,15 @@ public class LvivHotlineIssuesScheduler {
 
     private final InMemoryDao inMemoryDao;
     private final LvivHotlineBot lvivHotlineBot;
+    private final GetInfoCommandProcessor processor;
 
-    @Scheduled(fixedDelay ="60m")
+    @Scheduled(fixedDelay = "60m")
     void parseAndSend() {
         log.info("Starting 1580 crawling job...");
-        try {
-            new LvivHotlineIssuesParserImpl()
-                    .parse(LocalDate.now(), LocalDate.now().plus(1, ChronoUnit.DAYS))
-                    .stream()
-                    .filter(this::notContainsAction)
-                    .map(LvivHotlineResponse::fromAction)
-                    .map(LvivHotlineResponse::toTelegramResponse)
-                    .forEach(lvivHotlineBot::send);
-        } catch (Exception e) {
-            lvivHotlineBot.send("Error while parsing 1580: " + e.getMessage());
-        } finally {
-            log.info("Crawling job has finished");
-        }
+        processor.process(lvivHotlineBot::send);
+        log.info("Crawling job has finished");
     }
 
-    private boolean notContainsAction(Action action) {
-        String actionId = action.id();
-        boolean notContains = !inMemoryDao.contains(actionId);
-        if (notContains) {
-            inMemoryDao.save(action);
-        }
-        log.info("Saved id {}", actionId);
-        return notContains;
-    }
 
     @Scheduled(cron = CLEANUP_CRON)
     void cleanUpDb() {
