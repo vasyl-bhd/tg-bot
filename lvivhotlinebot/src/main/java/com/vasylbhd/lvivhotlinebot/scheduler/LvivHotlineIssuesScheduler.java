@@ -32,7 +32,13 @@ public class LvivHotlineIssuesScheduler {
     @Scheduled(fixedDelay = "60m")
     void parseAndSend() {
         log.info("Starting 1580 crawling job...");
-        checkForIssues(lvivHotlineBot::send);
+        try {
+            checkForIssues(lvivHotlineBot::send);
+        } catch (Exception e) {
+            lvivHotlineBot.send("Error while parsing 1580: " + e.getMessage());
+
+            log.error("", e);
+        }
         log.info("Crawling job has finished");
     }
 
