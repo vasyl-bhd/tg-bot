@@ -29,7 +29,7 @@ public class LvivHotlineIssuesScheduler {
     private final LvivHotlineIssuesParser parser;
     private final InMemoryDao inMemoryDao;
 
-    @Scheduled(fixedDelay = "60m")
+    @Scheduled(fixedDelay = "10m")
     void parseAndSend() {
         log.info("Starting 1580 crawling job...");
         try {
