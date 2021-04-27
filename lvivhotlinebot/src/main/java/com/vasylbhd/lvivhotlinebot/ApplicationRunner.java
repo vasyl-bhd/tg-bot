@@ -24,7 +24,7 @@ public class ApplicationRunner implements ApplicationEventListener<ApplicationSt
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(bot);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Error creating telegram bot: {}", e.getMessage(), e);
         }
     }
 }
