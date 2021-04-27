@@ -27,6 +27,7 @@ public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
                 .data("isFrame", "")
                 .data("hr", "1")
                 .data("frameJeoId", "0")
+                .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36")
                 .post()
                 .select(ROW_CLASS)
                 .stream()
