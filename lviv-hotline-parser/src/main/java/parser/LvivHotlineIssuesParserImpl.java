@@ -29,6 +29,7 @@ public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
     @SneakyThrows
     public List<Action> parse(LocalDate from, LocalDate to) {
         return Jsoup.connect(LVIV_HOTLINE_URL)
+                .timeout(90_000)
                 .data("data", getRequestData(from, to))
                 .data("rn", "0")
                 .data("all", "1")

@@ -46,9 +46,10 @@ public class LvivHotlineIssuesScheduler {
         String actionId = action.id();
         boolean notContains = !inMemoryDao.contains(actionId);
         if (notContains) {
+            log.info("Saved id {}", actionId);
+
             inMemoryDao.save(action);
         }
-        log.info("Saved id {}", actionId);
         return notContains;
     }
 
