@@ -1,5 +1,6 @@
 package parser;
 
+import connectors.DebuggingConnection;
 import converter.ElementConverter;
 import lombok.SneakyThrows;
 import model.Action;
@@ -28,9 +29,10 @@ public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
     @Override
     @SneakyThrows
     public List<Action> parse(LocalDate from, LocalDate to) {
-        return Jsoup.connect(LVIV_HOTLINE_URL)
+        return DebuggingConnection.connect(LVIV_HOTLINE_URL)
                 .timeout(90_000)
                 .data("data", getRequestData(from, to))
+                .data("rks", "1")
                 .data("rn", "0")
                 .data("all", "1")
                 .data("isFrame", "")
