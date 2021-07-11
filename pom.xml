@@ -12,7 +12,6 @@
     <modules>
         <module>bot-core</module>
         <module>1580-parser</module>
-        <module>random-meme-api</module>
     </modules>
 
     <build>
