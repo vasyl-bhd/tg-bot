@@ -5,13 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.vasylbhd</groupId>
-    <artifactId>lvivhotline</artifactId>
+    <artifactId>tg-bot</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>lvivhotlinebot</module>
-        <module>lviv-hotline-parser</module>
+        <module>bot-core</module>
+        <module>1580-parser</module>
+        <module>random-meme-api</module>
     </modules>
 
     <build>
