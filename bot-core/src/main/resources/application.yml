@@ -5,4 +5,4 @@ telegram:
     bot-name: ${BOT_USERNAME}
     meme-api-host-url: ${MEME_API_HOST_URL}
 redis:
-  uri: redis://localhost:6379
+  uri: ${REDIS_HOST}
