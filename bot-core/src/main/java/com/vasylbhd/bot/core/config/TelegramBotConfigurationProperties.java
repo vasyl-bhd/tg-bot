@@ -9,4 +9,5 @@ public interface TelegramBotConfigurationProperties {
     Long getChatId();
     String getBotName();
     String getMemeApiHostUrl();
+    String getPersistence();
 }

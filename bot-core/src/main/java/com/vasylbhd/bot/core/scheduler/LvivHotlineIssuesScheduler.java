@@ -2,6 +2,7 @@ package com.vasylbhd.bot.core.scheduler;
 
 import com.vasylbhd.bot.core.bot.LvivHotlineBot;
 import com.vasylbhd.bot.core.dao.InMemoryDao;
+import com.vasylbhd.bot.core.dao.TgMetadataDao;
 import com.vasylbhd.bot.core.model.LvivHotlineResponse;
 import io.micronaut.scheduling.annotation.Scheduled;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class LvivHotlineIssuesScheduler {
 
     private final LvivHotlineBot lvivHotlineBot;
     private final LvivHotlineIssuesParser parser;
-    private final InMemoryDao inMemoryDao;
+    private final TgMetadataDao metadataDao;
 
     @Scheduled(fixedDelay = "30m")
     void parseAndSend() {
@@ -44,11 +45,11 @@ public class LvivHotlineIssuesScheduler {
 
     private boolean notContainsAction(Action action) {
         String actionId = action.id();
-        boolean notContains = !inMemoryDao.contains(actionId);
+        boolean notContains = !metadataDao.contains(actionId);
         if (notContains) {
             log.info("Saved id {}", actionId);
 
-            inMemoryDao.save(action);
+            metadataDao.save(action);
         }
         return notContains;
     }
@@ -68,8 +69,8 @@ public class LvivHotlineIssuesScheduler {
     @Scheduled(cron = CLEANUP_CRON)
     void cleanUpDb() {
         log.info("Starting cleaning up job. About to remove {} records",
-                inMemoryDao.getAll().size());
-        boolean removed = inMemoryDao.getAll().entrySet()
+                metadataDao.getAll().size());
+        boolean removed = metadataDao.getAll().entrySet()
                 .removeIf(entry -> LocalDateTime.now().isAfter(entry.getValue()));
         log.info("Is there were removed items: {}", removed);
     }

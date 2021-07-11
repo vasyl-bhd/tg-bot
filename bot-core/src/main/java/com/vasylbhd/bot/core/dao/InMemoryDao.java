@@ -1,6 +1,7 @@
 package com.vasylbhd.bot.core.dao;
 
 import com.vasylbhd.model.Action;
+import io.micronaut.context.annotation.Requires;
 
 import javax.inject.Singleton;
 import java.time.LocalDateTime;
@@ -8,7 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-public class InMemoryDao {
+@Requires(property = "telegram.bot.persistence", value = "in-memory")
+public class InMemoryDao implements TgMetadataDao {
     private static final Map<String, LocalDateTime> idToEndDateMap = new HashMap<>();
 
     public void save(Action action) {

@@ -1,12 +1,13 @@
 package com.vasylbhd.bot.core.processor.command.impl;
 
-import com.vasylbhd.bot.core.dao.InMemoryDao;
+import com.vasylbhd.bot.core.dao.TgMetadataDao;
 import com.vasylbhd.bot.core.model.LvivHotlineResponse;
 import com.vasylbhd.bot.core.processor.command.Command;
 import com.vasylbhd.bot.core.processor.command.CommandProcessor;
+import com.vasylbhd.model.Action;
+import com.vasylbhd.parser.LvivHotlineIssuesParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.vasylbhd.parser.LvivHotlineIssuesParser;
 
 import javax.inject.Singleton;
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class GetInfoCommandProcessor extends CommandProcessor {
 
     private final LvivHotlineIssuesParser parser;
-    private final InMemoryDao inMemoryDao;
+    private final TgMetadataDao metadataDao;
 
     @Override
     public Command getCommandName() {
@@ -41,7 +42,10 @@ public class GetInfoCommandProcessor extends CommandProcessor {
     }
 
     private void checkForIssues(Consumer<String> onIssue) {
-        List<String> messages = parser.parse(LocalDate.now(), LocalDate.now().plus(1, DAYS))
+        var actions = parser.parse(LocalDate.now(), LocalDate.now().plus(1, DAYS));
+        actions.forEach(this::upsertAction);
+
+        List<String> messages = actions
                 .stream()
                 .map(LvivHotlineResponse::fromAction)
                 .map(LvivHotlineResponse::toTelegramResponse)
@@ -53,6 +57,12 @@ public class GetInfoCommandProcessor extends CommandProcessor {
         }
 
         messages.forEach(onIssue);
+    }
+
+    private void upsertAction(Action a) {
+        if (!metadataDao.contains(a.id())) {
+            metadataDao.save(a);
+        }
     }
 
 }
