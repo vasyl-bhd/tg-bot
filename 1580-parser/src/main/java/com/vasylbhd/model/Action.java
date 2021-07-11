@@ -1,4 +1,4 @@
-package com.vasylbhde.model;
+package com.vasylbhd.model;
 
 import java.time.LocalDateTime;
 import java.util.List;

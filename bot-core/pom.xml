@@ -15,14 +15,14 @@
     <description>Demo project for w Boot</description>
 
     <properties>
-        <java.version>15</java.version>
+        <java.version>16</java.version>
         <jackson.version>2.12.1</jackson.version>
         <telegrambots.version>5.0.1</telegrambots.version>
         <packaging>jar</packaging>
-        <jdk.version>15</jdk.version>
-        <release.version>15</release.version>
+        <jdk.version>16</jdk.version>
+        <release.version>16</release.version>
         <micronaut.version>2.3.0</micronaut.version>
-        <exec.mainClass>com.vasylbhd.bot.core.LvivhotlinebotApplication</exec.mainClass>
+        <exec.mainClass>com.vasylbhd.bot.core.Application</exec.mainClass>
         <slf4j.version>1.7.30</slf4j.version>
     </properties>
 
@@ -70,7 +70,7 @@
 
         <dependency>
             <groupId>com.vasylbhd</groupId>
-            <artifactId>lviv-hotline-parser</artifactId>
+            <artifactId>1580-parser</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

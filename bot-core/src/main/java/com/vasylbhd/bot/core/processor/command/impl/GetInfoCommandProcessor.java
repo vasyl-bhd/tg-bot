@@ -6,7 +6,7 @@ import com.vasylbhd.bot.core.processor.command.Command;
 import com.vasylbhd.bot.core.processor.command.CommandProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.vasylbhde.parser.LvivHotlineIssuesParser;
+import com.vasylbhd.parser.LvivHotlineIssuesParser;
 
 import javax.inject.Singleton;
 import java.time.LocalDate;

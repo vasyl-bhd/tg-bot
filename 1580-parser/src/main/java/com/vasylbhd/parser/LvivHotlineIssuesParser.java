@@ -1,6 +1,6 @@
-package com.vasylbhde.parser;
+package com.vasylbhd.parser;
 
-import com.vasylbhde.model.Action;
+import com.vasylbhd.model.Action;
 
 import java.time.LocalDate;
 import java.util.List;

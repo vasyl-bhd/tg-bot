@@ -1,4 +1,4 @@
-package com.vasylbhde.connectors;
+package com.vasylbhd.connectors;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;

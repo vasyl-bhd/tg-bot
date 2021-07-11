@@ -6,8 +6,8 @@ import com.vasylbhd.bot.core.model.LvivHotlineResponse;
 import io.micronaut.scheduling.annotation.Scheduled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.vasylbhde.model.Action;
-import com.vasylbhde.parser.LvivHotlineIssuesParser;
+import com.vasylbhd.model.Action;
+import com.vasylbhd.parser.LvivHotlineIssuesParser;
 
 import javax.inject.Singleton;
 import java.time.LocalDate;

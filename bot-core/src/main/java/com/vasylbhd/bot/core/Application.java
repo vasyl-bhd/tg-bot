@@ -2,9 +2,9 @@ package com.vasylbhd.bot.core;
 
 import io.micronaut.runtime.Micronaut;
 
-public class LvivhotlinebotApplication {
+public class Application {
 
     public static void main(String[] args) throws Exception {
-        Micronaut.run(LvivhotlinebotApplication.class, args);
+        Micronaut.run(Application.class, args);
     }
 }

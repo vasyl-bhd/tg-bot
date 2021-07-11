@@ -1,7 +1,7 @@
 package com.vasylbhd.bot.core.model;
 
-import com.vasylbhde.model.Action;
-import com.vasylbhde.model.Street;
+import com.vasylbhd.model.Action;
+import com.vasylbhd.model.Street;
 
 import java.time.LocalDateTime;
 import java.util.List;

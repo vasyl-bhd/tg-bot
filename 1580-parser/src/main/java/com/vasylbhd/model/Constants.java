@@ -1,4 +1,4 @@
-package com.vasylbhde.model;
+package com.vasylbhd.model;
 
 public final class Constants {
     private Constants() {}

@@ -1,8 +1,8 @@
 package com.vasylbhd.bot.core.config;
 
 import io.micronaut.context.annotation.Factory;
-import com.vasylbhde.parser.LvivHotlineIssuesParser;
-import com.vasylbhde.parser.LvivHotlineIssuesParserImpl;
+import com.vasylbhd.parser.LvivHotlineIssuesParser;
+import com.vasylbhd.parser.LvivHotlineIssuesParserImpl;
 
 import javax.inject.Singleton;
 

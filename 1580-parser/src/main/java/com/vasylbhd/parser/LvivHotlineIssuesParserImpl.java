@@ -1,8 +1,8 @@
-package com.vasylbhde.parser;
+package com.vasylbhd.parser;
 
-import com.vasylbhde.converter.ElementConverter;
+import com.vasylbhd.converter.ElementConverter;
 import lombok.SneakyThrows;
-import com.vasylbhde.model.Action;
+import com.vasylbhd.model.Action;
 import org.jsoup.Jsoup;
 
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.vasylbhde.model.Constants.*;
+import static com.vasylbhd.model.Constants.*;
 
 public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
@@ -37,7 +37,7 @@ public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
 
     private String getRequestData(LocalDate from, LocalDate to) {
         return String.format(
-                com.vasylbhde.model.Constants.REQUEST_FILTER_STRING_FORMAT,
+                com.vasylbhd.model.Constants.REQUEST_FILTER_STRING_FORMAT,
                 from.format(dateTimeFormatter),
                 to.format(dateTimeFormatter),
                 GROOVE_STREET_SWEET_HOME);

@@ -1,6 +1,6 @@
 package com.vasylbhd.bot.core.dao;
 
-import com.vasylbhde.model.Action;
+import com.vasylbhd.model.Action;
 
 import javax.inject.Singleton;
 import java.time.LocalDateTime;

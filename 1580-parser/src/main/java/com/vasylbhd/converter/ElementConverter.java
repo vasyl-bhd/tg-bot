@@ -1,7 +1,7 @@
-package com.vasylbhde.converter;
+package com.vasylbhd.converter;
 
-import com.vasylbhde.model.Action;
-import com.vasylbhde.model.Street;
+import com.vasylbhd.model.Action;
+import com.vasylbhd.model.Street;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.function.Predicate.not;
-import static com.vasylbhde.model.Constants.*;
+import static com.vasylbhd.model.Constants.*;
 
 public final class ElementConverter {
     private ElementConverter(){}
