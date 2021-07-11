@@ -21,9 +21,10 @@
         <packaging>jar</packaging>
         <jdk.version>16</jdk.version>
         <release.version>16</release.version>
-        <micronaut.version>2.3.0</micronaut.version>
+        <micronaut.version>2.5.8</micronaut.version>
         <exec.mainClass>com.vasylbhd.bot.core.Application</exec.mainClass>
         <slf4j.version>1.7.30</slf4j.version>
+        <lombok.version>1.18.20</lombok.version>
     </properties>
 
     <dependencies>
@@ -60,6 +61,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
