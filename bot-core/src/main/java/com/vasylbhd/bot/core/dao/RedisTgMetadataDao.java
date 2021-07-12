@@ -8,8 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Singleton;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toMap;
 
 @Slf4j
@@ -19,14 +23,14 @@ import static java.util.stream.Collectors.toMap;
 public class RedisTgMetadataDao implements TgMetadataDao {
     private static final String PREFIX = "tg-";
 
-    private final StatefulRedisConnection<String, LocalDateTime> redisConnection;
-
+    private final StatefulRedisConnection<String, String> redisConnection;
 
     @Override
     public void save(Action action) {
         var commands = redisConnection.sync();
-        commands.set(getKey(action.id()), action.estimatedEndDate());
+        var estimatedEndDate = getApproximateEndDate(action.estimatedEndDate());
 
+        commands.set(getKey(action.id()), estimatedEndDate);
     }
 
     @Override
@@ -39,7 +43,7 @@ public class RedisTgMetadataDao implements TgMetadataDao {
     @Override
     public LocalDateTime get(String id) {
         var commands = redisConnection.sync();
-        return commands.get(getKey(id));
+        return LocalDateTime.parse(commands.get(getKey(id)));
     }
 
     @Override
@@ -48,10 +52,30 @@ public class RedisTgMetadataDao implements TgMetadataDao {
         return commands.keys(getKey("*"))
                 .stream()
                 .map(k -> Map.entry(k, commands.get(k)))
-                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(toMap(Map.Entry::getKey, e -> parseApproximateEndDate(e.getValue())));
+    }
+
+    @Override
+    public long remove(List<String> keys) {
+        var commands = redisConnection.sync();
+
+        return commands.del(keys.toArray(new String[0]));
     }
 
     private String getKey(String id) {
         return PREFIX + id;
+    }
+
+    private String getApproximateEndDate(LocalDateTime estimatedEndDate) {
+        return Optional.ofNullable(estimatedEndDate)
+                .map(LocalDateTime::toString)
+                .orElse(null);
+    }
+
+    private LocalDateTime parseApproximateEndDate(String estimatedEndDate) {
+        return Optional.ofNullable(estimatedEndDate)
+                .filter(not(String::isBlank))
+                .map(LocalDateTime::parse)
+                .orElse(LocalDateTime.now().plus(1, ChronoUnit.DAYS));
     }
 }

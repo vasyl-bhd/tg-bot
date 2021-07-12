@@ -14,6 +14,7 @@ import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @RequiredArgsConstructor
 public class LvivHotlineIssuesScheduler {
 
-    private static final String CLEANUP_CRON = "0 0 6 * * MON";
+    private static final String CLEANUP_CRON = "0 0 5 ? * 2/7";
 
     private final LvivHotlineBot lvivHotlineBot;
     private final LvivHotlineIssuesParser parser;
@@ -35,12 +36,12 @@ public class LvivHotlineIssuesScheduler {
         log.info("Starting 1580 crawling job...");
         try {
             checkForIssues(lvivHotlineBot::send);
+            log.info("Crawling job has finished");
         } catch (Exception e) {
             lvivHotlineBot.send("Error while parsing 1580: " + e.getMessage());
 
             log.error("", e);
         }
-        log.info("Crawling job has finished");
     }
 
     private boolean notContainsAction(Action action) {
@@ -53,7 +54,6 @@ public class LvivHotlineIssuesScheduler {
         }
         return notContains;
     }
-
 
     private void checkForIssues(Consumer<String> onIssue) {
         List<String> messages = parser.parse(LocalDate.now(), LocalDate.now().plus(1, DAYS))
@@ -70,8 +70,17 @@ public class LvivHotlineIssuesScheduler {
     void cleanUpDb() {
         log.info("Starting cleaning up job. About to remove {} records",
                 metadataDao.getAll().size());
-        boolean removed = metadataDao.getAll().entrySet()
-                .removeIf(entry -> LocalDateTime.now().isAfter(entry.getValue()));
-        log.info("Is there were removed items: {}", removed);
+        var keysToDelete = metadataDao.getAll().entrySet()
+                .stream()
+                .filter(entry -> LocalDateTime.now().isAfter(entry.getValue()))
+                .map(Map.Entry::getKey)
+                .toList();
+
+        long removed = 0;
+        if (!keysToDelete.isEmpty()) {
+            removed = metadataDao.remove(keysToDelete);
+        }
+
+        log.info("There were removed items: {}", removed);
     }
 }

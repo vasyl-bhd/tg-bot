@@ -6,7 +6,9 @@ import io.micronaut.context.annotation.Requires;
 import javax.inject.Singleton;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Singleton
 @Requires(property = "telegram.bot.persistence", value = "in-memory")
@@ -29,5 +31,11 @@ public class InMemoryDao implements TgMetadataDao {
         return idToEndDateMap;
     }
 
-
+    @Override
+    public long remove(List<String> keys) {
+        return keys.stream()
+                .map(idToEndDateMap::remove)
+                .filter(Objects::nonNull)
+                .count();
+    }
 }

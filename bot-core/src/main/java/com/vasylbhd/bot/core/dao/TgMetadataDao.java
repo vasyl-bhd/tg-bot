@@ -3,6 +3,7 @@ package com.vasylbhd.bot.core.dao;
 import com.vasylbhd.model.Action;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 public interface TgMetadataDao {
@@ -14,5 +15,7 @@ public interface TgMetadataDao {
     LocalDateTime get(String id);
 
     Map<String, LocalDateTime> getAll();
+
+    long remove(List<String> keys);
 
 }
