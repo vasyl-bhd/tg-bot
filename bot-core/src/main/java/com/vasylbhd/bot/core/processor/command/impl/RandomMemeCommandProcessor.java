@@ -26,7 +26,7 @@ public class RandomMemeCommandProcessor extends CommandProcessor {
     protected void processCommand(Consumer<String> execute) {
         memeApiClient.getRandomMeme()
                 .map(this::getMessage)
-                .doOnSuccess(execute::accept)
+                .doOnNext(execute)
                 .doOnError(e -> execute.accept(e.getMessage()))
                 .subscribe();
     }

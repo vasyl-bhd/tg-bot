@@ -5,7 +5,8 @@
     <parent>
         <groupId>io.micronaut</groupId>
         <artifactId>micronaut-parent</artifactId>
-        <version>2.5.0</version>
+        <version>3.0.1</version>
+        <relativePath/>
     </parent>
 
     <groupId>com.vasylbhd</groupId>
@@ -19,8 +20,8 @@
         <jackson.version>2.12.1</jackson.version>
         <telegrambots.version>5.0.1</telegrambots.version>
         <packaging>jar</packaging>
-        <jdk.version>16</jdk.version>
-        <release.version>16</release.version>
+        <jdk.version>17</jdk.version>
+        <release.version>17</release.version>
         <micronaut.version>3.0.1</micronaut.version>
         <exec.mainClass>com.vasylbhd.bot.core.Application</exec.mainClass>
         <slf4j.version>1.7.30</slf4j.version>
@@ -96,6 +97,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <!-- Uncomment to enable incremental compilation -->
                     <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
