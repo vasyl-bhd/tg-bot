@@ -15,13 +15,13 @@
     <description>Demo project for w Boot</description>
 
     <properties>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <jackson.version>2.12.1</jackson.version>
         <telegrambots.version>5.0.1</telegrambots.version>
         <packaging>jar</packaging>
         <jdk.version>16</jdk.version>
         <release.version>16</release.version>
-        <micronaut.version>2.5.8</micronaut.version>
+        <micronaut.version>3.0.1</micronaut.version>
         <exec.mainClass>com.vasylbhd.bot.core.Application</exec.mainClass>
         <slf4j.version>1.7.30</slf4j.version>
         <lombok.version>1.18.20</lombok.version>
@@ -120,7 +120,6 @@
                     <compilerArgs>
                         <arg>-Amicronaut.processing.group=com.vasylb</arg>
                         <arg>-Amicronaut.processing.module=bot-core</arg>
-                        <arg>--enable-preview</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
