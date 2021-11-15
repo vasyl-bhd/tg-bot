@@ -7,15 +7,11 @@ public final class Constants {
     public static final String LVIV_HOTLINE_URL = "https://1580.lviv.ua/ajax/inform/informList.php";
     public static final String REQUEST_FILTER_STRING_FORMAT = "from=%S&to=%S&streetid=2251&skyscraperid=&street=%S&house=&radio1580datetype=2&radio1580works=1";
     public static final String AND = " > ";
-    public static final String BR = "<br>";
-    public static final String DIV_PREFIX = "<div";
 
-    public static final String ID_ATTRIBUTE = "id";
     public static final String ROW_CLASS = "div[class*=row gx-3 mt-4]";
     public static final String SIDEBAR_CLASS = "div[class*=dateinform]";
     public static final String BODY_CLASS = "div[class*=messageinform]";
     public static final String PANEL_DEFAULT = "div[class*=panelinform]";
-    public static final String PANEL_BODY = "div[class*=card-body]";
     public static final String PANEL_FOOTER = "div[class*=card-footer]";
 
     public static final String START_DATE_CLASS = "div[class*=StartDate]";

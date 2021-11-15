@@ -1,6 +1,7 @@
 package com.vasylbhd.parser;
 
 import com.vasylbhd.converter.ElementConverter;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import com.vasylbhd.model.Action;
 import org.jsoup.Jsoup;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static com.vasylbhd.model.Constants.*;
 
-public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
+public record LvivHotlineIssuesParserImpl(ElementConverter elementConverter) implements LvivHotlineIssuesParser {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
 
     @Override
@@ -31,7 +32,7 @@ public class LvivHotlineIssuesParserImpl implements LvivHotlineIssuesParser {
                 .post()
                 .select(ROW_CLASS)
                 .stream()
-                .map(ElementConverter::toAction)
+                .map(elementConverter::toAction)
                 .collect(Collectors.toList());
     }
 
