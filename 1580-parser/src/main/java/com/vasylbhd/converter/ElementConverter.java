@@ -3,21 +3,24 @@ package com.vasylbhd.converter;
 import com.vasylbhd.model.Action;
 import com.vasylbhd.model.Street;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static java.util.function.Predicate.not;
 import static com.vasylbhd.model.Constants.*;
+import static java.util.Collections.emptyList;
+import static java.util.function.Predicate.not;
 
 public final class ElementConverter {
     private ElementConverter(){}
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.uu kk:mm");
     private static final DateTimeFormatter modDateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.uuuu kk:mm");
+    private static final Pattern DATE_PATTERN = Pattern.compile("[А-Яа-я]+:?\\s(\\d{2}.\\d{2}.\\d{2}\\s\\d{2}:\\d{2}).*");
 
     public static Action toAction(Element element) {
         return new Action(
@@ -31,8 +34,8 @@ public final class ElementConverter {
     }
 
     public static List<Street> getStreets(Elements element) {
-        return Arrays.stream(element.html().replace(BR, "").split(System.lineSeparator()))
-                .takeWhile(s -> !s.startsWith(DIV_PREFIX))
+        return element.textNodes().stream()
+                .map(TextNode::text)
                 .filter(not(String::isBlank))
                 .map(s -> s.split(getSplitter(s)))
                 .map(ElementConverter::getStreetFromLines)
@@ -48,11 +51,15 @@ public final class ElementConverter {
     }
 
     private static String getStringTime(String s) {
-        return s.substring(s.indexOf(' ') + 1);
+        var matcher = DATE_PATTERN.matcher(s);
+        var found = matcher.find(0);
+        return found ? matcher.group(1) : EMPTY_STRING;
     }
 
     public static Street getStreetFromLines(String[] lines) {
-        return new Street(lines[0], List.of(lines[1].replace(HOUSE_SUFFIX, EMPTY_STRING).split(DOUBLE_NBSP_NBSP)));
+        List<String> streetNumbers = lines.length < 2 ? emptyList() : List.of(lines[1].replace(HOUSE_SUFFIX, EMPTY_STRING).split(DOUBLE_NBSP_NBSP));
+
+        return new Street(lines[0], streetNumbers);
     }
 
     public static String getSplitter(String s) {
@@ -60,7 +67,7 @@ public final class ElementConverter {
     }
 
     public static String getModificationDateTime(String div) {
-        return div.substring(div.indexOf(MODIFICATION_DATE) + MODIFICATION_DATE.length());
+        return div.isEmpty() ? div : div.substring(div.indexOf(MODIFICATION_DATE) + MODIFICATION_DATE.length());
     }
 
 
