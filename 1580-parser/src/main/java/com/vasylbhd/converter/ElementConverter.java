@@ -22,17 +22,17 @@ public final class ElementConverter {
 
     public Action toAction(Element element) {
         return new Action(
-                (String) getElementAndCast(ElementType.Id).apply(element),
-                (LocalDateTime) getElementAndCast(ElementType.StartDate).apply(element),
-                (LocalDateTime) getElementAndCast(ElementType.EstimatedEndDate).apply(element),
-                (LocalDateTime) getElementAndCast(ElementType.EndDate).apply(element),
-                (List<Street>) getElementAndCast(ElementType.AffectedStreets).apply(element),
-                (LocalDateTime) getElementAndCast(ElementType.ModificationDate).apply(element),
-                (String) getElementAndCast(ElementType.Reason).apply(element));
+                this.getElementAndCast(ElementType.Id, element),
+                this.getElementAndCast(ElementType.StartDate, element),
+                this.getElementAndCast(ElementType.EstimatedEndDate, element),
+                this.getElementAndCast(ElementType.EndDate, element),
+                this.getElementAndCast(ElementType.AffectedStreets, element),
+                this.getElementAndCast(ElementType.ModificationDate, element),
+                this.getElementAndCast(ElementType.Reason, element));
     }
 
-    private <T> Function<Element, T> getElementAndCast(final ElementType elementType) {
-        return (Element element) -> (T) elementTypeMap.get(elementType).resolve(element);
+    private <T> T getElementAndCast(final ElementType elementType, final Element element) {
+        return (T) elementTypeMap.get(elementType).resolve(element);
     }
 
 }
