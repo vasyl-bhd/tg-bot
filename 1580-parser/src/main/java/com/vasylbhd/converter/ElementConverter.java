@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toMap;

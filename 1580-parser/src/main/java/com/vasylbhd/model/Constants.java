@@ -16,7 +16,7 @@ public final class Constants {
 
     public static final String START_DATE_CLASS = "div[class*=StartDate]";
     public static final String END_DATE_CLASS = "div[class*=EndDate]";
-    public static final String ESTIMATED_END_DATE_CLASS = SIDEBAR_CLASS + AND + "div[class*=PlanDate]";
+    public static final String ESTIMATED_END_DATE_CLASS = "div[class*=PlanDate]";
     public static final String REASON_CLASS = BODY_CLASS + AND + PANEL_DEFAULT + AND + "div[class*=card-header]";
     public static final String STREETS_CLASS = "div[class=card-body animColor]";
     public static final String MODIFICATION_DATE_CLASS = BODY_CLASS + AND + PANEL_DEFAULT  + AND + PANEL_FOOTER;
