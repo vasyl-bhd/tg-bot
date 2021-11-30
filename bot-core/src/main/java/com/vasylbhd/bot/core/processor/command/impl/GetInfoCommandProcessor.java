@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.YEARS;
 
 @Singleton
 @RequiredArgsConstructor
@@ -43,7 +44,7 @@ public class GetInfoCommandProcessor extends CommandProcessor {
     }
 
     private void checkForIssues(Consumer<String> onIssue) {
-        var actions = parser.parse(LocalDate.now().minus(1, DAYS), LocalDate.now().plus(1, DAYS));
+        var actions = parser.parse(LocalDate.now().minus(1, YEARS), LocalDate.now().plus(1, DAYS));
         actions.forEach(this::upsertAction);
 
         List<String> messages = actions

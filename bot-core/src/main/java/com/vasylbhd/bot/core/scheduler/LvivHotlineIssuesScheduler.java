@@ -1,7 +1,6 @@
 package com.vasylbhd.bot.core.scheduler;
 
 import com.vasylbhd.bot.core.bot.LvivHotlineBot;
-import com.vasylbhd.bot.core.dao.InMemoryDao;
 import com.vasylbhd.bot.core.dao.TgMetadataDao;
 import com.vasylbhd.bot.core.model.LvivHotlineResponse;
 import io.micronaut.scheduling.annotation.Scheduled;
@@ -13,13 +12,12 @@ import com.vasylbhd.parser.LvivHotlineIssuesParser;
 import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.YEARS;
 
 @Singleton
 @Slf4j
@@ -33,10 +31,13 @@ public class LvivHotlineIssuesScheduler {
     private final TgMetadataDao metadataDao;
 
     @Scheduled(fixedDelay = "30m")
-    void parseAndSend() {
+    void searchAndSend() {
         log.info("Starting 1580 crawling job...");
         try {
-            checkForIssues(lvivHotlineBot::send);
+            var issues = getIssues();
+
+            issues.forEach(lvivHotlineBot::send);
+
             log.info("Crawling job has finished");
         } catch (Exception e) {
             lvivHotlineBot.send("Error while parsing 1580: " + e.getMessage());
@@ -56,15 +57,13 @@ public class LvivHotlineIssuesScheduler {
         return notContains;
     }
 
-    private void checkForIssues(Consumer<String> onIssue) {
-        List<String> messages = parser.parse(LocalDate.now().minus(1, DAYS), LocalDate.now().plus(1, DAYS))
+    private List<String> getIssues() {
+        return parser.parse(LocalDate.now().minus(1, YEARS), LocalDate.now().plus(1, DAYS))
                 .stream()
                 .filter(this::notContainsAction)
                 .map(LvivHotlineResponse::fromAction)
                 .map(LvivHotlineResponse::toTelegramResponse)
                 .collect(Collectors.toList());
-
-        messages.forEach(onIssue);
     }
 
     @Scheduled(cron = CLEANUP_CRON)
