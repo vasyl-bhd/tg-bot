@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Singleton;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -42,7 +43,7 @@ public class GetInfoCommandProcessor extends CommandProcessor {
     }
 
     private void checkForIssues(Consumer<String> onIssue) {
-        var actions = parser.parse(LocalDate.now(), LocalDate.now().plus(1, DAYS));
+        var actions = parser.parse(LocalDate.now().minus(1, DAYS), LocalDate.now().plus(1, DAYS));
         actions.forEach(this::upsertAction);
 
         List<String> messages = actions

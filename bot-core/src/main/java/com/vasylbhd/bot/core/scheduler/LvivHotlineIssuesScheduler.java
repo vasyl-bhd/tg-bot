@@ -13,6 +13,7 @@ import com.vasylbhd.parser.LvivHotlineIssuesParser;
 import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -56,7 +57,7 @@ public class LvivHotlineIssuesScheduler {
     }
 
     private void checkForIssues(Consumer<String> onIssue) {
-        List<String> messages = parser.parse(LocalDate.now(), LocalDate.now().plus(1, DAYS))
+        List<String> messages = parser.parse(LocalDate.now().minus(1, DAYS), LocalDate.now().plus(1, DAYS))
                 .stream()
                 .filter(this::notContainsAction)
                 .map(LvivHotlineResponse::fromAction)
