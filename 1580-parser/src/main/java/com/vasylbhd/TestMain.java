@@ -14,6 +14,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.vasylbhd.model.Constants.*;
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.YEARS;
 import static java.util.stream.Collectors.joining;
 
 public class TestMain {
@@ -30,7 +32,7 @@ public class TestMain {
                 new StreetsElementResolver()
         );
         var elementConverter = new ElementConverter(elementResolvers);
-        var parse = new LvivHotlineIssuesParserImpl(elementConverter).parse(LocalDate.now().minus(40, ChronoUnit.DAYS), LocalDate.now());
+        var parse = new LvivHotlineIssuesParserImpl(elementConverter).parse(LocalDate.now().minus(1, YEARS), LocalDate.now().plus(2, DAYS));
         var collect = parse.stream().map(Record::toString).collect(joining("\n"));
         System.out.println(collect);
     }

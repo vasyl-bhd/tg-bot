@@ -44,7 +44,7 @@ public class GetInfoCommandProcessor extends CommandProcessor {
     }
 
     private void checkForIssues(Consumer<String> onIssue) {
-        var actions = parser.parse(LocalDate.now().minus(1, YEARS), LocalDate.now().plus(1, DAYS));
+        var actions = parser.parse(LocalDate.now().minus(1, YEARS), LocalDate.now().plus(2, DAYS));
         actions.forEach(this::upsertAction);
 
         List<String> messages = actions

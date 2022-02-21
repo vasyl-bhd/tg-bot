@@ -5,7 +5,7 @@ public final class Constants {
 
 
     public static final String LVIV_HOTLINE_URL = "https://1580.lviv.ua/ajax/inform/informList.php";
-    public static final String REQUEST_FILTER_STRING_FORMAT = "from=%S&to=%S&streetid=2251&skyscraperid=&street=%S&house=&radio1580datetype=2&radio1580works=1";
+    public static final String REQUEST_FILTER_STRING_FORMAT = "from=%S&to=%S&streetid=2251&skyscraperid=&street=%S&house=&radio1580datetype=1&radio1580works=1";
     public static final String AND = " > ";
 
     public static final String ROW_CLASS = "div[class*=row gx-3 mt-4]";

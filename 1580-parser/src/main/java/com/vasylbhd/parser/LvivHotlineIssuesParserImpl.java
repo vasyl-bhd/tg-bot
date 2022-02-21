@@ -4,9 +4,12 @@ import com.vasylbhd.converter.ElementConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import com.vasylbhd.model.Action;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import ssl.TrustfullSSLFactory;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -14,15 +17,18 @@ import java.util.stream.Collectors;
 
 import static com.vasylbhd.model.Constants.*;
 
+@Slf4j
 public record LvivHotlineIssuesParserImpl(ElementConverter elementConverter) implements LvivHotlineIssuesParser {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
 
     @Override
     @SneakyThrows
     public List<Action> parse(LocalDate from, LocalDate to) {
+        var data = getRequestData(from, to);
+        log.info("Generated 1580 request data: {}", data);
         return Jsoup.connect(LVIV_HOTLINE_URL)
                 .timeout(90_000)
-                .data("data", getRequestData(from, to))
+                .data("data", data)
                 .data("rks", "1")
                 .data("rn", "0")
                 .data("all", "1")
