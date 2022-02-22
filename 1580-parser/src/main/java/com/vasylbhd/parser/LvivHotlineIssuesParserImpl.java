@@ -49,6 +49,7 @@ public record LvivHotlineIssuesParserImpl(ElementConverter elementConverter) imp
                 com.vasylbhd.model.Constants.REQUEST_FILTER_STRING_FORMAT,
                 from.format(dateTimeFormatter),
                 to.format(dateTimeFormatter),
-                GROOVE_STREET_SWEET_HOME);
+                GROOVE_STREET_SWEET_HOME,
+                HOUSE_NUMBER);
     }
 }
