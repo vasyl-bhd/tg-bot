@@ -30,7 +30,7 @@ public class LvivHotlineIssuesScheduler {
     private final LvivHotlineIssuesParser parser;
     private final TgMetadataDao metadataDao;
 
-    @Scheduled(fixedDelay = "30m")
+    @Scheduled(fixedDelay = "10m")
     void searchAndSend() {
         log.info("Starting 1580 crawling job...");
         try {
